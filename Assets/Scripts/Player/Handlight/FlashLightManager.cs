@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HandlightManager : MonoBehaviour
+public class FlashLightManager : MonoBehaviour
 {
     [SerializeField] private GameObject handlight;
     [SerializeField] private Slider batterySlider;
