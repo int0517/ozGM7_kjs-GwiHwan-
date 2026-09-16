@@ -20,6 +20,7 @@ public class HandlightManager : MonoBehaviour
     {
         handlight.SetActive(isLightOn);
 
+        ReloadBattery();
         DisplayBatteryAmount();
         LightPower();
         ReduceBattery();
@@ -47,5 +48,13 @@ public class HandlightManager : MonoBehaviour
     {
         float batteryRatio = batteryCurrentAmount / batteryMaxAmount;
         batterySlider.value = batteryRatio;
+    }
+
+    private void ReloadBattery()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            batteryCurrentAmount = batteryMaxAmount;
+        }
     }
 }
