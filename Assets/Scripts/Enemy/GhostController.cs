@@ -38,50 +38,38 @@ public class GhostController : MonoBehaviour
     private int currentWaypointIndex = 0;
     private float waitTimer;
 
-    private Renderer ghostRenderer;
-
-    private enum State
-    {
-        Patrol,
-        Chase,
-        Search
-    }
-
-    private State currentState;
+    public GhostStateEnum CurrentState { get; private set; }
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        ghostRenderer = GetComponent<Renderer>();
     }
 
     private void Start()
     {
-        currentState = State.Patrol;
+        CurrentState = GhostStateEnum.Patrol;
 
         if (waypoints.Length > 0 && waypoints[0] != null)
         {
             agent.SetDestination(waypoints[0].position);
         }
-
-        ghostRenderer.material.color = Color.red;
     }
 
     private void Update()
     {
-        switch (currentState)
+        switch (CurrentState)
         {
-            case State.Patrol:
+            case GhostStateEnum.Patrol:
                 Patrol();
                 agent.speed = 3f;
                 break;
 
-            case State.Chase:
+            case GhostStateEnum.Chase:
                 Chase();
                 agent.speed = 5f;
                 break;
 
-            case State.Search:
+            case GhostStateEnum.Search:
                 Search();
                 agent.speed = 3f;
                 break;
@@ -97,7 +85,7 @@ public class GhostController : MonoBehaviour
             lostTimer = 0f;
             chaseMemoryTimer = 0f;
 
-            currentState = State.Chase;
+            CurrentState = GhostStateEnum.Chase;
             return;
         }
 
@@ -147,7 +135,7 @@ public class GhostController : MonoBehaviour
             {
                 reachedLastKnownPosition = true;
 
-                currentState = State.Search;
+                CurrentState = GhostStateEnum.Search;
 
                 searchInitialized = false;
                 lostTimer = 0f;
@@ -207,7 +195,7 @@ public class GhostController : MonoBehaviour
     {
         if (CanSeePlayer())
         {
-            currentState = State.Chase;
+            CurrentState = GhostStateEnum.Chase;
 
             lastKnownPlayerPosition = player.position;
             reachedLastKnownPosition = false;
@@ -236,7 +224,7 @@ public class GhostController : MonoBehaviour
             searchInitialized = false;
             lostTimer = 0f;
 
-            currentState = State.Patrol;
+            CurrentState = GhostStateEnum.Patrol;
 
             SetNearestWaypoint();
         }
