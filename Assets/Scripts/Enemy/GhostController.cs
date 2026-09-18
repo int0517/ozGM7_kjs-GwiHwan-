@@ -10,158 +10,102 @@ public class GhostController : MonoBehaviour
     [Header("Patrol")]
     [SerializeField] private Transform[] waypoints = new Transform[4];
     [SerializeField] private float waitTime = 2f;
-    [SerializeField] private float searchAngle = 70f;
 
     [Header("Detect")]
     [SerializeField] private float detectRange = 15f;
-    [SerializeField] private float lostPlayerTime = 3f;
-    
-    private float lostTimer = 0f;
-    private Vector3 lastKnownPlayerPosition;
-    private bool reachedLastKnownPosition = false;
+    [SerializeField] private float searchAngle = 70f;
+    [SerializeField] private float chaseMemoryTime = 2f;
 
     [Header("Search")]
     [SerializeField] private float searchTime = 3f;
     [SerializeField] private float lookSpeed = 90f;
     [SerializeField] private float lookAngle = 70f;
 
-
-    [SerializeField] private float chaseMemoryTime = 2f;
-
-    private float chaseMemoryTimer = 0f;
-
-    private Quaternion searchStartRotation;
-    private bool searchInitialized = false;
+    [Header("Speed")]
+    [SerializeField] private float patrolSpeed = 3f;
+    [SerializeField] private float chaseSpeed = 5f;
+    [SerializeField] private float searchSpeed = 3f;
 
     private NavMeshAgent agent;
 
+    private GhostState currentState;
+
+    private GhostPatrolState patrolState;
+    private GhostChaseState chaseState;
+    private GhostSearchState searchState;
+
     private int currentWaypointIndex = 0;
-    private float waitTimer;
 
     public GhostStateEnum CurrentState { get; private set; }
+    public Transform Player => player;
+    public NavMeshAgent Agent => agent;
+    public Transform[] Waypoints => waypoints;
+    public float WaitTime => waitTime;
+    public float DetectRange => detectRange;
+    public float SearchAngle => searchAngle;
+    public float ChaseMemoryTime => chaseMemoryTime;
+    public float SearchTime => searchTime;
+    public float LookSpeed => lookSpeed;
+    public float LookAngle => lookAngle;
+    public float PatrolSpeed => patrolSpeed;
+    public float ChaseSpeed => chaseSpeed;
+    public float SearchSpeed => searchSpeed;
+    public int CurrentWaypointIndex
+    {
+        get => currentWaypointIndex;
+        set => currentWaypointIndex = value;
+    }
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        patrolState = new GhostPatrolState(this);
+        chaseState = new GhostChaseState(this);
+        searchState = new GhostSearchState(this);
     }
 
     private void Start()
     {
-        CurrentState = GhostStateEnum.Patrol;
-
-        if (waypoints.Length > 0 && waypoints[0] != null)
-        {
-            agent.SetDestination(waypoints[0].position);
-        }
+        ChangeState(GhostStateEnum.Patrol);
     }
 
     private void Update()
     {
-        switch (CurrentState)
-        {
-            case GhostStateEnum.Patrol:
-                Patrol();
-                agent.speed = 3f;
-                break;
-
-            case GhostStateEnum.Chase:
-                Chase();
-                agent.speed = 5f;
-                break;
-
-            case GhostStateEnum.Search:
-                Search();
-                agent.speed = 3f;
-                break;
-        }
+        currentState?.Update();
     }
 
-    private void Patrol()
+    public void ChangeState(GhostStateEnum newState)
     {
-        if (CanSeePlayer())
+        currentState?.Exit();
+
+        CurrentState = newState;
+
+        currentState = newState switch
         {
-            lastKnownPlayerPosition = player.position;
-            reachedLastKnownPosition = false;
-            lostTimer = 0f;
-            chaseMemoryTimer = 0f;
+            GhostStateEnum.Patrol => patrolState,
+            GhostStateEnum.Chase => chaseState,
+            GhostStateEnum.Search => searchState,
+            _ => null
+        };
 
-            CurrentState = GhostStateEnum.Chase;
-            return;
-        }
-
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            waitTimer += Time.deltaTime;
-
-            if (waitTimer >= waitTime)
-            {
-                waitTimer = 0f;
-                MoveNextWaypoint();
-            }
-        }
+        currentState?.Enter();
     }
 
-    private void Chase()
+    public bool CanSeePlayer()
     {
-        if (CanSeePlayer())
-        {
-            // 플레이어를 보고 있음
-            chaseMemoryTimer = 0f;
+        if (player == null) return false;
 
-            lastKnownPlayerPosition = player.position;
-
-            agent.SetDestination(player.position);
-
-            return;
-        }
-
-        // 플레이어를 놓침
-        chaseMemoryTimer += Time.deltaTime;
-
-        // 2초 동안은 마지막으로 본 위치를 계속 추적
-        if (chaseMemoryTimer < chaseMemoryTime)
-        {
-            agent.SetDestination(lastKnownPlayerPosition);
-            return;
-        }
-
-        // 2초가 지나면 마지막 위치까지 이동
-        if (!reachedLastKnownPosition)
-        {
-            agent.SetDestination(lastKnownPlayerPosition);
-
-            if (!agent.pathPending &&
-                agent.remainingDistance <= agent.stoppingDistance)
-            {
-                reachedLastKnownPosition = true;
-
-                CurrentState = GhostStateEnum.Search;
-
-                searchInitialized = false;
-                lostTimer = 0f;
-
-                agent.ResetPath();
-            }
-        }
-    }
-
-    private bool CanSeePlayer()
-    {
-        // 1. 거리 체크
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance > detectRange)
-            return false;
+        if (distance > detectRange) return false;
 
-        // 2. 시야각 체크
         Vector3 direction = (player.position - transform.position).normalized;
 
         float angle = Vector3.Angle(transform.forward, direction);
 
-        if (angle > searchAngle)
-            return false;
+        if (angle > searchAngle) return false;
 
-        // 3. 벽 체크
         Vector3 origin = transform.position + Vector3.up * 1.5f;
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, detectRange))
@@ -169,77 +113,40 @@ public class GhostController : MonoBehaviour
             if (hit.transform == player)
             {
                 Debug.DrawRay(origin, direction * detectRange, Color.green);
+
                 return true;
             }
 
-            Debug.DrawRay(origin, direction * hit.distance, Color.red);
+            Debug.DrawRay(origin, direction * hit.distance, Color.red
+            );
         }
 
         return false;
     }
 
-    private void MoveNextWaypoint()
+    public void MoveNextWaypoint()
     {
-        if (waypoints.Length == 0)
-            return;
+        if (waypoints == null || waypoints.Length == 0) return;
 
         currentWaypointIndex++;
 
-        if (currentWaypointIndex >= waypoints.Length)
-            currentWaypointIndex = 0;
+        if (currentWaypointIndex >= waypoints.Length) currentWaypointIndex = 0;
 
-        agent.SetDestination(waypoints[currentWaypointIndex].position);
+        if (waypoints[currentWaypointIndex] != null)
+            agent.SetDestination(waypoints[currentWaypointIndex].position);
     }
 
-    private void Search()
+    public void SetNearestWaypoint()
     {
-        if (CanSeePlayer())
-        {
-            CurrentState = GhostStateEnum.Chase;
-
-            lastKnownPlayerPosition = player.position;
-            reachedLastKnownPosition = false;
-
-            return;
-        }
-
-        if (!searchInitialized)
-        {
-            searchInitialized = true;
-            searchStartRotation = transform.rotation;
-
-            agent.ResetPath();
-        }
-
-        lostTimer += Time.deltaTime;
-
-        float angle = Mathf.Sin(lostTimer * lookSpeed * Mathf.Deg2Rad) * lookAngle;
-
-        transform.rotation = searchStartRotation * Quaternion.Euler(0, angle, 0);
-
-        if (lostTimer >= searchTime)
-        {
-            transform.rotation = searchStartRotation;
-
-            searchInitialized = false;
-            lostTimer = 0f;
-
-            CurrentState = GhostStateEnum.Patrol;
-
-            SetNearestWaypoint();
-        }
-    }
-
-    private void SetNearestWaypoint()
-    {
-        if (waypoints.Length == 0)
-            return;
+        if (waypoints == null || waypoints.Length == 0) return;
 
         float closestDistance = Mathf.Infinity;
         int closestIndex = 0;
 
         for (int i = 0; i < waypoints.Length; i++)
         {
+            if (waypoints[i] == null) continue;
+
             float distance = Vector3.Distance(transform.position, waypoints[i].position);
 
             if (distance < closestDistance)
@@ -249,10 +156,8 @@ public class GhostController : MonoBehaviour
             }
         }
 
-        // 가장 가까운 웨이포인트를 현재 위치로 설정
         currentWaypointIndex = closestIndex;
 
-        // 다음 웨이포인트로 이동
         MoveNextWaypoint();
     }
 }
