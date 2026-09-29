@@ -1,3 +1,5 @@
+3D 에셋
+
 귀신 - "The Unvermeidlich (Ghost) [Darkness Of Eclipse]" (https://skfb.ly/6VFXn) by Memorie is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 손전등1 - "Old Flashlight" (https://skfb.ly/6zFGo) by Blender3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
@@ -7,3 +9,5 @@
 배터리 - "9V Battery" (https://skfb.ly/oA6M7) by The Lost Sock is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 열쇠 - "Door Key" (https://skfb.ly/oLMK7) by GUIBEL is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+폐병원 - https://assetstore.unity.com/packages/3d/environments/pbr-hospital-horror-pack-free-80117
