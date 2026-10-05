@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Key1
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
   id: 101
+  itemName: "\uBCF5\uB3C4 \uC5F4\uC1E0"
   description: "1\uBC88 \uC5F4\uC1E0"
   type: 0

@@ -22,9 +22,13 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
+    public bool CanMove { get; private set; }
+
     private void Awake()
     {
         Application.targetFrameRate = 144;
+        CanMove = true;
 
         if (instance == null)
         {
@@ -35,5 +39,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetMoveAble(bool value)
+    {
+        CanMove = value;
     }
 }

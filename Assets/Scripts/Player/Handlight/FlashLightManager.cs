@@ -20,6 +20,12 @@ public class FlashLightManager : MonoBehaviour
     {
         handlight.SetActive(isLightOn);
 
+        if (!GameManager.Instance.CanMove)
+        {
+            isLightOn = false;
+            return;
+        }
+
         ReloadBattery();
         DisplayBatteryAmount();
         LightPower();

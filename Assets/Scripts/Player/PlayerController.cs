@@ -3,10 +3,9 @@
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float mouseSensitivity = 200f;
+    [SerializeField] private float mouseSensitivity = 5f;
 
     private CharacterController controller;
-    private Renderer pRenderer;
     private Transform cam;
 
     private float xRotation = 0f;
@@ -14,11 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     public float MoveSpeed => moveSpeed;
     public bool IsMoving { get; private set; }
+    
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
-        pRenderer = GetComponent<Renderer>();
         cam = Camera.main.transform;
     }
 
@@ -26,14 +25,15 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        pRenderer.material.color = Color.blue;
     }
 
     private void Update()
     {
-        Move();
-        Look();
+        if (GameManager.Instance.CanMove)
+        {
+            Move();
+            Look();
+        }
     }
 
     private void Move()
@@ -53,13 +53,9 @@ public class PlayerController : MonoBehaviour
 
     private void Look()
     {
-        float mouseX = Input.GetAxis("Mouse X") *
-                       mouseSensitivity *
-                       Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
 
-        float mouseY = Input.GetAxis("Mouse Y") *
-                       mouseSensitivity *
-                       Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -80f, 80f);

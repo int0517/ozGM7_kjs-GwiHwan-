@@ -27,13 +27,8 @@ public class PlayerInventoryManager : MonoBehaviour
     private Dictionary<int, int> currentInventory;
     public Dictionary<int, int> CurrentInventory => currentInventory;
 
-    [SerializeField] private TextMeshProUGUI invenT;
-
     private void Awake()
     {
-        GameObject invenTgameObject = GameObject.Find("TempInventoryT");
-        invenT = invenTgameObject.GetComponent<TextMeshProUGUI>();
-
         if (instance == null)
         {
             instance = this;
@@ -58,7 +53,7 @@ public class PlayerInventoryManager : MonoBehaviour
             currentInventory.Add(item.ID, 1);
         }
 
-        invenT.text += $"\n{item.name}";
+        MessageManager.Instance.PlayMessage($"{item.ItemName}을(를) 획득했다.");
     }
 
     public void UseItem(ItemSO item)
@@ -67,25 +62,7 @@ public class PlayerInventoryManager : MonoBehaviour
 
         currentInventory[item.ID]--;
 
-        // 임시 텍스트 인벤
-        string[] itemNames = invenT.text.Split('\n');
-        List<string> newItemNames = new List<string>();
-        bool removed = false;
-
-        foreach (string itemName in itemNames)
-        {
-            if (!removed && itemName == item.name)
-            {
-                removed = true;
-                continue;
-            } 
-            if (!string.IsNullOrEmpty(itemName))
-            {
-                newItemNames.Add(itemName);
-            }
-        }
-        invenT.text = string.Join("\n", newItemNames);
-
+        MessageManager.Instance.PlayMessage($"{item.ItemName}을(를) 사용했다.");
 
         if (currentInventory[item.ID] <= 0)
         {

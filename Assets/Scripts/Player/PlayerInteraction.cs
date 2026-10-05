@@ -6,6 +6,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private float interactDistance = 3f;
     [SerializeField] private LayerMask itemLayer;
     [SerializeField] private LayerMask doorLayer;
+    [SerializeField] private LayerMask stairsRoomDoorLayer;
 
     void Update()
     {
@@ -36,6 +37,18 @@ public class PlayerInteraction : MonoBehaviour
             if (doorManager != null)
             {
                 doorManager.DoorOpen();
+                return;
+            }
+        }
+
+        // 계단방 문
+        if (Physics.Raycast(ray, out RaycastHit stairsRoomDoorHit, interactDistance, stairsRoomDoorLayer))
+        {
+            StairsRoomDoorManager stairsRoomDoorManager = stairsRoomDoorHit.collider.GetComponent<StairsRoomDoorManager>();
+
+            if (stairsRoomDoorManager != null)
+            {
+                stairsRoomDoorManager.EnterStairs();
                 return;
             }
         }
