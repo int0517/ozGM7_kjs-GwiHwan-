@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField] private ItemSO itemSO;
 
-    public void GetItem()
+    public void TryInteract()
     {
         PlayerInventoryManager.Instance.GetItem(itemSO);
         Destroy(gameObject);

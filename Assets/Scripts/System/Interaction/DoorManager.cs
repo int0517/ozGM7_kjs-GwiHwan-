@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DoorManager : MonoBehaviour
+public class DoorManager : MonoBehaviour, IInteractable
 {
     [SerializeField] private ItemSO keySO;
     [SerializeField] private Transform doorPivot;
@@ -12,7 +12,7 @@ public class DoorManager : MonoBehaviour
     private Coroutine doorCoroutine;
     private bool isOpened = false;
 
-    public void DoorOpen()
+    public void TryInteract()
     {
         if (doorCoroutine != null || isOpened) return;
 

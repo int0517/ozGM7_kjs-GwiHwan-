@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+public enum CurrentFloor
+{
+    Floor1,
+    Floor2
+}
+
 public class PlayerStaminaManager : MonoBehaviour
 {
     [Header("Speed")]

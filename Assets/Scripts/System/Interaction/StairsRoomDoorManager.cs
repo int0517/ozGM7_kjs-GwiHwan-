@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StairsRoomDoorManager : MonoBehaviour
+public class StairsRoomDoorManager : MonoBehaviour, IInteractable
 {
     [SerializeField] private Image blackScreen;
     [SerializeField] private Transform doorPivot;
@@ -25,7 +25,7 @@ public class StairsRoomDoorManager : MonoBehaviour
         playerPos = player.transform;
     }
 
-    public void EnterStairs()
+    public void TryInteract()
     {
         if (doorCoroutine != null) return;
 
@@ -90,6 +90,7 @@ public class StairsRoomDoorManager : MonoBehaviour
         playerPos.position = movePos2Start;
         playerPos.rotation = Quaternion.Euler(0f, 0f, 0f);
         mainCamera.rotation = Quaternion.Euler(0f, 0f, 0f);
+        player.ChangeFloor();
 
         timer = 0f;
 
