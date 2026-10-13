@@ -10,6 +10,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     [SerializeField] private Transform movePos1;
     [SerializeField] private Transform movePos2;
     [SerializeField] private Transform mainCamera;
+    [SerializeField] private FlashLightManager flashLightManager;
     private Transform playerPos;
 
     private float rotateTime = 2f;
@@ -35,6 +36,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     private IEnumerator StairsRoomCoroutine()
     {
         GameManager.Instance.SetMoveAble(false);
+        flashLightManager.ChangeLightState(false);
         playerPos.position = movePos1.position;
         playerPos.rotation = Quaternion.Euler(0f, 180f, 0f);
         mainCamera.rotation = Quaternion.Euler(0f, 180f, 0f);

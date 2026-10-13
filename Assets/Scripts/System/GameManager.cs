@@ -41,6 +41,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!CanMove) Time.timeScale = 0f;
+        else if (CanMove) Time.timeScale = 1f;
+    }
+
     public void SetMoveAble(bool value)
     {
         CanMove = value;

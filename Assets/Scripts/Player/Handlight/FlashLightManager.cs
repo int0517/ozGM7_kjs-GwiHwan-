@@ -6,9 +6,9 @@ public class FlashLightManager : MonoBehaviour
     [SerializeField] private GameObject handlight;
     [SerializeField] private Slider batterySlider;
 
-    private bool isLightOn;
     private float batteryMaxAmount = 10;
     private float batteryCurrentAmount;
+    private bool isLightOn;
 
     private void Awake()
     {
@@ -20,12 +20,6 @@ public class FlashLightManager : MonoBehaviour
     {
         handlight.SetActive(isLightOn);
 
-        if (!GameManager.Instance.CanMove)
-        {
-            isLightOn = false;
-            return;
-        }
-
         ReloadBattery();
         DisplayBatteryAmount();
         LightPower();
@@ -34,6 +28,8 @@ public class FlashLightManager : MonoBehaviour
 
     private void LightPower()
     {
+        if (!GameManager.Instance.CanMove) return;
+
         if (batteryCurrentAmount <= 0)
         {
             isLightOn = false;
@@ -62,5 +58,10 @@ public class FlashLightManager : MonoBehaviour
         {
             batteryCurrentAmount = batteryMaxAmount;
         }
+    }
+
+    public void ChangeLightState(bool value)
+    {
+        isLightOn = value;
     }
 }

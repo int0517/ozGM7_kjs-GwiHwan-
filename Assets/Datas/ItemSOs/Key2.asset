@@ -16,3 +16,4 @@ MonoBehaviour:
   itemName: "\uD604\uAD00 \uC5F4\uC1E0"
   description: "2\uBC88 \uC5F4\uC1E0"
   type: 0
+  icon: {fileID: 21300000, guid: 47edc29dc113b5c4387a45ec8b7216b0, type: 3}

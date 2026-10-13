@@ -15,9 +15,11 @@ public class ItemSO : ScriptableObject
     [SerializeField] private string itemName;
     [SerializeField] private string description;
     [SerializeField] private ItemType type;
+    [SerializeField] private Sprite icon;
 
     public int ID => id;
     public string ItemName => itemName;
     public string Description => description;
     public ItemType Type => type;
+    public Sprite Icon => icon;
 }
