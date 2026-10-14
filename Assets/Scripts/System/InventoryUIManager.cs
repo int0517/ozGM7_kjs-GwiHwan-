@@ -102,16 +102,15 @@ public class InventoryUIManager : MonoBehaviour
             }
 
             GameObject slot = Instantiate(itemSlotPrefab, content);
-
             Image icon = slot.transform.Find("Icon").GetComponent<Image>();
-
             TMP_Text nameText = slot.transform.Find("NameT").GetComponent<TMP_Text>();
-
             TMP_Text countText = slot.transform.Find("CountT").GetComponent<TMP_Text>();
+            InvenIconButtonClick button = slot.GetComponentInChildren<InvenIconButtonClick>();
 
             icon.sprite = item.Icon;
             nameText.text = item.ItemName;
             countText.text = $"x{entry.Value}";
+            button.SetItemSO(item);
         }
     }
 

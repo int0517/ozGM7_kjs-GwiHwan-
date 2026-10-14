@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 4717999422522831480}
   - component: {fileID: 3108491035706573280}
   - component: {fileID: 3653034197363830714}
+  - component: {fileID: 4564661600968609144}
   m_Layer: 5
   m_Name: InvenBlank
   m_TagString: Untagged
@@ -335,18 +336,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 4564661600968609144}
+        m_TargetAssemblyTypeName: InvenIconButtonClick, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4564661600968609144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8168351233525468329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80ab6f14495b31469ca0775852420f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvenIconButtonClick
 --- !u!1 &8261147264504893639
 GameObject:
   m_ObjectHideFlags: 0

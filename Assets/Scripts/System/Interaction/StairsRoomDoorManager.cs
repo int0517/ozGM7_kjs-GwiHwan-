@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class StairsRoomDoorManager : MonoBehaviour, IInteractable
 {
+    [SerializeField] private ItemSO keySO;
     [SerializeField] private Image blackScreen;
     [SerializeField] private Transform doorPivot;
     [SerializeField] private PlayerController player;
@@ -11,6 +12,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     [SerializeField] private Transform movePos2;
     [SerializeField] private Transform mainCamera;
     [SerializeField] private FlashLightManager flashLightManager;
+    
     private Transform playerPos;
 
     private float rotateTime = 2f;
@@ -20,6 +22,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     private float moveDistance = 2f;
 
     private Coroutine doorCoroutine;
+    private bool isOpened = false;
 
     private void Awake()
     {
@@ -30,7 +33,22 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     {
         if (doorCoroutine != null) return;
 
-        doorCoroutine = StartCoroutine(StairsRoomCoroutine());
+        if (keySO == null)
+        {
+            isOpened = true;
+            doorCoroutine = StartCoroutine(StairsRoomCoroutine());
+        }
+        else if (keySO != null && !PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
+        {
+            MessageManager.Instance.PlayMessage("문이 잠겨있다.");
+            // 문 잠김 사운드
+        }
+        else if (keySO != null && PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
+        {
+            isOpened = true;
+            PlayerInventoryManager.Instance.UseItem(keySO);
+            doorCoroutine = StartCoroutine(StairsRoomCoroutine());
+        }
     }
 
     private IEnumerator StairsRoomCoroutine()
