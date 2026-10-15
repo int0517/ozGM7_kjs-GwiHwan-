@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Floor")]
     [SerializeField] private CurrentFloor currentFloor;
     private float floor1YPos = 1f;
-    private float floor2YPos = 4f;
+    private float floor2YPos = 7f;
 
 
     private void Awake()

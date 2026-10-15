@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42f4653c9ad37949801489134dc3d7c, type: 3}
   m_Name: Key4
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
-  id: 104
+  id: 14
   itemName: "\uCC3D\uACE0 \uC5F4\uC1E0"
   description: "\uCC3D\uACE0\uB97C \uC5F4 \uC218 \uC788\uB294 \uC5F4\uC1E0\\n\\n\uB179\uC774
     \uC2AC\uC5B4\uC788\uB2E4."

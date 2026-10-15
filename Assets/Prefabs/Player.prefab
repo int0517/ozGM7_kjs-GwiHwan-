@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 729412874454151740}
   - component: {fileID: 896968724159591152}
   m_Layer: 0
-  m_Name: Handlight
+  m_Name: Flashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   mouseSensitivity: 200
   moveSpeed: 0
+  currentFloor: 0
 --- !u!114 &3709899405205936626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,12 +600,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerItemInteraction
   playerCamera: {fileID: 2744637425468954842}
   interactDistance: 3
-  itemLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  doorLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  stairsRoomDoorLayer:
-    serializedVersion: 2
-    m_Bits: 0

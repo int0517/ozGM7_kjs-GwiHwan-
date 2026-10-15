@@ -5,6 +5,7 @@ public class FlashLightManager : MonoBehaviour
 {
     [SerializeField] private GameObject handlight;
     [SerializeField] private Slider batterySlider;
+    [SerializeField] private ItemSO batterySO;
 
     private float batteryMaxAmount = 10;
     private float batteryCurrentAmount;
@@ -54,8 +55,10 @@ public class FlashLightManager : MonoBehaviour
 
     private void ReloadBattery()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) &&
+            PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(batterySO.ID))
         {
+            PlayerInventoryManager.Instance.UseItem(batterySO);
             batteryCurrentAmount = batteryMaxAmount;
         }
     }

@@ -4,8 +4,7 @@ using UnityEngine;
 public enum ItemType
 {
     Key,
-    Consumable,
-    equip
+    FlashLight
 }
 
 [CreateAssetMenu(fileName = "ItemSO", menuName = ("Item"))]

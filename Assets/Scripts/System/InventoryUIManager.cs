@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class InventoryUIManager : MonoBehaviour
 {
@@ -77,9 +78,11 @@ public class InventoryUIManager : MonoBehaviour
 
         Cursor.visible = isOpen;
         Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Time.timeScale = isOpen ? 0f : 1f;
 
         if (isOpen)
         {
+            itemDescriptionText.text = "";
             RefreshInventory();
         }
     }
