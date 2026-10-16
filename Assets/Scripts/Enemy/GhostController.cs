@@ -39,7 +39,8 @@ public class GhostController : MonoBehaviour
     private GhostAudioController ghostAudio;
 
     private bool isActive;
-    private GameObject rewardKey;
+    [SerializeField] private GameObject rewardKey;
+    [SerializeField] private StairsRoomDoorManager door;
 
     public GhostStateEnum CurrentState { get; private set; }
     public Transform Player => player;
@@ -72,11 +73,14 @@ public class GhostController : MonoBehaviour
         searchState = new GhostSearchState(this);
 
         isActive = false;
+
+        agent.isStopped = true;
+        agent.ResetPath();
     }
 
     private void Start()
     {
-        ChangeState(GhostStateEnum.Patrol);
+        
     }
 
     private void Update()
@@ -175,13 +179,16 @@ public class GhostController : MonoBehaviour
     public void GhostActive()
     {
         isActive = true;
+        agent.isStopped = false;
+
+        ChangeState(GhostStateEnum.Patrol);
     }
 
     private void OnDestroy()
     {
         ghostAudio.StopSound();
         ghostAudio.PlayKeyDropAudio();
+        door.DoorLock(false);
         Instantiate(rewardKey, transform.position, Quaternion.identity);
-        // 짤그랑 소리
     }
 }

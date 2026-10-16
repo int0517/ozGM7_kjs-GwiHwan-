@@ -7,13 +7,14 @@ public class EnterEnding : MonoBehaviour
     [SerializeField] private GameObject EndingT;
     [SerializeField] private Image blackScreen;
 
-    private void OnCollisionEnter(Collision coll)
+    private void OnTriggerEnter(Collider other)
     {
-        if (coll.gameObject.layer == playerLayer)
+        if ((playerLayer.value & (1 << other.gameObject.layer)) != 0)
         {
             EndingT.SetActive(true);
             blackScreen.color = new Color(0f, 0f, 0f, 0.7f);
             Time.timeScale = 0f;
+            GameManager.Instance.SetMoveAble(false);
         }
     }
 }

@@ -22,34 +22,53 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
     private float moveDistance = 2f;
 
     private Coroutine doorCoroutine;
-    private bool isOpened = false;
+    private bool isOpened;
+    [SerializeField] private bool isLocked;
 
     private void Awake()
     {
         playerPos = player.transform;
+        isOpened = false;
+        isLocked = true;
     }
 
     public void TryInteract()
     {
         if (doorCoroutine != null) return;
 
-        if (keySO == null)
+        // 이미 잠금 해제된 문
+        if (!isLocked)
         {
             isOpened = true;
             doorCoroutine = StartCoroutine(StairsRoomCoroutine());
+            return;
         }
-        else if (keySO != null && !PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
+
+        // 잠긴 문인데 열쇠가 지정되지 않은 경우
+        if (keySO == null)
         {
             MessageManager.Instance.PlayMessage("문이 잠겨있다.");
             AudioManager.Instance.PlaySystemAudio(2, 0.2f);
+            return;
         }
-        else if (keySO != null && PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
+
+        // 인벤토리에 열쇠가 없는 경우
+        if (!PlayerInventoryManager.Instance.CurrentInventory
+            .ContainsKey(keySO.ID))
         {
-            isOpened = true;
-            AudioManager.Instance.PlaySystemAudio(3, 0.1f);
-            PlayerInventoryManager.Instance.UseItem(keySO);
-            doorCoroutine = StartCoroutine(StairsRoomCoroutine());
+            MessageManager.Instance.PlayMessage("문이 잠겨있다.");
+            AudioManager.Instance.PlaySystemAudio(2, 0.2f);
+            return;
         }
+
+        // 열쇠가 있으므로 잠금 해제
+        isLocked = false;
+        isOpened = true;
+
+        AudioManager.Instance.PlaySystemAudio(3, 0.1f);
+        PlayerInventoryManager.Instance.UseItem(keySO);
+
+        doorCoroutine = StartCoroutine(StairsRoomCoroutine());
     }
 
     private IEnumerator StairsRoomCoroutine()
@@ -140,5 +159,10 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
         GameManager.Instance.SetMoveAble(true);
 
         doorCoroutine = null;
+    }
+
+    public void DoorLock(bool value)
+    {
+        isLocked = value;
     }
 }
