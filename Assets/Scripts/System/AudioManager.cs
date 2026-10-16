@@ -29,62 +29,102 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] ghostAudio;
     [SerializeField] private AudioClip[] systemAudio;
 
-    [Header("Audio Source")]
-    [SerializeField] private AudioSource audioSource;
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource bgmSource;
+    [SerializeField] private AudioSource sfxSource;
+
+    [Header("Background Audio")]
+    [SerializeField] private AudioClip whiteNoiseClip;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
-        // AudioSource가 지정되지 않았다면 직접 가져오기
-        if (audioSource == null)
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // AudioSource 자동 생성 및 연결
+        if (bgmSource == null)
         {
-            audioSource = GetComponent<AudioSource>();
-
-            if (audioSource == null)
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
-            }
+            bgmSource = gameObject.AddComponent<AudioSource>();
         }
+
+        if (sfxSource == null)
+        {
+            sfxSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // 배경음 설정
+        bgmSource.playOnAwake = false;
+        bgmSource.loop = true;
+
+        // 효과음 설정
+        sfxSource.playOnAwake = false;
+        sfxSource.loop = false;
+
+        PlayBGM(whiteNoiseClip, 0.001f);
     }
 
-    public void PlayPlayerAudio(int index)
+    // 배경음 재생
+    public void PlayBGM(AudioClip clip, float volume = 1f)
     {
-        PlayAudio(playerAudio, index);
+        if (clip == null) return;
+
+        bgmSource.clip = clip;
+        bgmSource.volume = Mathf.Clamp01(volume);
+        bgmSource.loop = true;
+        bgmSource.Play();
     }
 
-    public void PlayGhostAudio(int index)
+    // 배경음 정지
+    public void StopBGM()
     {
-        PlayAudio(ghostAudio, index);
+        bgmSource.Stop();
     }
 
-    public void PlaySystemAudio(int index)
+    // 배경음 볼륨 조절
+    public void SetBGMVolume(float volume)
     {
-        PlayAudio(systemAudio, index);
+        bgmSource.volume = Mathf.Clamp01(volume);
     }
 
-    private void PlayAudio(AudioClip[] clips, int index)
+    // 플레이어 효과음
+    public void PlayPlayerAudio(int index, float volume = 1f)
     {
-        if (clips == null || index < 0 || index >= clips.Length)
+        PlaySFX(playerAudio, index, volume);
+    }
+
+    // 귀신 효과음
+    public void PlayGhostAudio(int index, float volume = 1f)
+    {
+        PlaySFX(ghostAudio, index, volume);
+    }
+
+    // 시스템 효과음
+    public void PlaySystemAudio(int index, float volume = 1f)
+    {
+        PlaySFX(systemAudio, index, volume);
+    }
+
+    // 공통 효과음 재생
+    private void PlaySFX(AudioClip[] clips, int index, float volume)
+    {
+        if (clips == null ||
+            index < 0 ||
+            index >= clips.Length ||
+            clips[index] == null)
         {
             Debug.LogWarning($"잘못된 오디오 인덱스: {index}");
             return;
         }
 
-        if (clips[index] == null)
-        {
-            Debug.LogWarning($"AudioClip이 비어 있습니다: {index}");
-            return;
-        }
-
-        audioSource.PlayOneShot(clips[index]);
+        sfxSource.PlayOneShot(
+            clips[index],
+            Mathf.Clamp01(volume)
+        );
     }
 }

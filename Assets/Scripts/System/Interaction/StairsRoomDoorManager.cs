@@ -41,11 +41,12 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
         else if (keySO != null && !PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
         {
             MessageManager.Instance.PlayMessage("문이 잠겨있다.");
-            // 문 잠김 사운드
+            AudioManager.Instance.PlaySystemAudio(2, 0.2f);
         }
         else if (keySO != null && PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(keySO.ID))
         {
             isOpened = true;
+            AudioManager.Instance.PlaySystemAudio(3, 0.1f);
             PlayerInventoryManager.Instance.UseItem(keySO);
             doorCoroutine = StartCoroutine(StairsRoomCoroutine());
         }
@@ -63,7 +64,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
         Quaternion openRotation = startRotation * Quaternion.Euler(0f, rotateAngle, 0f);
 
         float timer = 0f;
-        // 문 열림 사운드
+        AudioManager.Instance.PlaySystemAudio(0, 0.1f);
 
         while (timer < rotateTime)
         {
@@ -128,6 +129,7 @@ public class StairsRoomDoorManager : MonoBehaviour, IInteractable
             yield return null;
         }
 
+        AudioManager.Instance.PlaySystemAudio(1, 0.1f);
         playerPos.position = movePos2.position;
 
         Color clearColor = blackScreen.color;

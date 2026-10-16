@@ -36,6 +36,11 @@ public class GhostController : MonoBehaviour
 
     private int currentWaypointIndex = 0;
 
+    private GhostAudioController ghostAudio;
+
+    private bool isActive;
+    private GameObject rewardKey;
+
     public GhostStateEnum CurrentState { get; private set; }
     public Transform Player => player;
     public NavMeshAgent Agent => agent;
@@ -50,6 +55,7 @@ public class GhostController : MonoBehaviour
     public float PatrolSpeed => patrolSpeed;
     public float ChaseSpeed => chaseSpeed;
     public float SearchSpeed => searchSpeed;
+    public bool IsActive => isActive;
     public int CurrentWaypointIndex
     {
         get => currentWaypointIndex;
@@ -59,10 +65,13 @@ public class GhostController : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        ghostAudio = GetComponent<GhostAudioController>();
 
         patrolState = new GhostPatrolState(this);
         chaseState = new GhostChaseState(this);
         searchState = new GhostSearchState(this);
+
+        isActive = false;
     }
 
     private void Start()
@@ -72,6 +81,8 @@ public class GhostController : MonoBehaviour
 
     private void Update()
     {
+        if (!isActive) return;
+
         currentState?.Update();
     }
 
@@ -159,5 +170,18 @@ public class GhostController : MonoBehaviour
         currentWaypointIndex = closestIndex;
 
         MoveNextWaypoint();
+    }
+
+    public void GhostActive()
+    {
+        isActive = true;
+    }
+
+    private void OnDestroy()
+    {
+        ghostAudio.StopSound();
+        ghostAudio.PlayKeyDropAudio();
+        Instantiate(rewardKey, transform.position, Quaternion.identity);
+        // 짤그랑 소리
     }
 }

@@ -38,6 +38,7 @@ public class GhostJumpScare : MonoBehaviour
         light.color = new Color(140/255f, 0f, 0f);
         light.intensity = 10f;
 
+        AudioManager.Instance.PlayGhostAudio(0, 0.2f);
         GameManager.Instance.SetMoveAble(false);
 
         // 카메라가 target1을 향해 빠르게 이동하고 회전

@@ -34,10 +34,15 @@ public class FlashLightManager : MonoBehaviour
         if (batteryCurrentAmount <= 0)
         {
             isLightOn = false;
+            AudioManager.Instance.PlaySystemAudio(7, 0.1f);
             return;
         }
 
-        if (Input.GetMouseButtonDown(0) && batteryCurrentAmount > 0) isLightOn = !isLightOn;
+        if (Input.GetMouseButtonDown(0) && batteryCurrentAmount > 0)
+        {
+            AudioManager.Instance.PlaySystemAudio(7, 0.1f);
+            isLightOn = !isLightOn;
+        }
     }
 
     private void ReduceBattery()

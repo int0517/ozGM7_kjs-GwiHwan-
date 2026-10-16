@@ -24,6 +24,7 @@ public class CurtainManager : MonoBehaviour, IInteractable
         targetScale.x = 0.3f;
 
         float elapsed = 0f;
+        AudioManager.Instance.PlaySystemAudio(4, 0.1f);
 
         while (elapsed < duration)
         {

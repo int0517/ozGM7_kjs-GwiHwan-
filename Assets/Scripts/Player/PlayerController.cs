@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float footstepTimer;
     private int footstepIndex;
     private PlayerStaminaManager staminaManager;
+    private bool wasRunning;
 
 
     private void Awake()
@@ -118,28 +119,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void PlayFootstep()
     {
         if (!IsMoving)
         {
             footstepTimer = 0f;
+            wasRunning = staminaManager != null &&
+                         staminaManager.IsRunning;
             return;
+        }
+
+        bool isRunning = staminaManager != null &&
+                         staminaManager.IsRunning;
+
+        float currentInterval = isRunning
+            ? runFootstepInterval
+            : walkFootstepInterval;
+
+        // 걷기와 달리기 상태가 바뀌면 타이머를 새 간격에 맞춤
+        if (isRunning != wasRunning)
+        {
+            footstepTimer = Mathf.Min(footstepTimer, currentInterval);
+            wasRunning = isRunning;
         }
 
         footstepTimer -= Time.deltaTime;
 
         if (footstepTimer <= 0f)
         {
-            AudioManager.Instance.PlayPlayerAudio(footstepIndex);
+            AudioManager.Instance.PlayPlayerAudio(footstepIndex, 0.1f);
 
-            // 0번과 1번 사운드 번갈아 재생
             footstepIndex = (footstepIndex + 1) % 2;
 
-            // 걷기와 달리기에 따라 발소리 간격 변경
-            footstepTimer = staminaManager != null &&
-                            staminaManager.IsRunning
-                ? runFootstepInterval
-                : walkFootstepInterval;
+            footstepTimer = currentInterval;
         }
     }
+
 }

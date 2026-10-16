@@ -17,6 +17,7 @@ public class TrashCan : MonoBehaviour, IInteractable
     public void TryInteract()
     {
         isOpen = true;
+        AudioManager.Instance.PlaySystemAudio(6, 0.1f);
         animator.SetTrigger("Open");
     }
 

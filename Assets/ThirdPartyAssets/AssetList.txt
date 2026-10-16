@@ -27,3 +27,30 @@
 원형 테이블 - "Old Round Table (Low Poly)" (https://skfb.ly/6RToP) by Marcin.Kwiatkowski is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 쓰레기통 - "Trash Can with animations. Garbage Can animated" (https://skfb.ly/6Wo6E) by AmongModels is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+조명 - "Portable Construction Light - WCG" (https://skfb.ly/oq7tX) by Vanillatography is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+
+오디오
+
+발소리 - https://pixabay.com/ko/users/yarzur_ofc-49620193/
+
+문
+열림 - DoorOpened.ogg by lennyboy -- https://freesound.org/s/275184/ -- License: Creative Commons 0
+닫힘 - doorclose.wav by blindgoofball -- https://freesound.org/s/707440/ -- License: Attribution 4.0 
+잠김 - Door Locked by BenjaminNelan -- https://freesound.org/s/321087/ -- License: Creative Commons 0
+잠금 해제 - door unlock.wav by THE_bizniss -- https://freesound.org/s/53273/ -- License: Attribution 3.0
+
+화이트노이즈 - Sytrus White Noise by curtiswcole -- https://freesound.org/s/717304/ -- License: Creative Commons 0
+
+커튼 - Opening A Curtain.wav by EmilZendera98 -- https://freesound.org/s/446046/ -- License: Attribution 4.0
+
+아이템 획득 - Score 2 by CJspellsfish -- https://freesound.org/s/676402/ -- License: Creative Commons 0
+
+쓰레기통 - Metal Trashcan OPEN.wav by cMilan -- https://freesound.org/s/426786/ -- License: Creative Commons 0
+
+손전등 - Switch Light 05.wav by tbrook -- https://freesound.org/s/348225/ -- License: Creative Commons 0
+
+귀신
+비명 - screaming_woman_horror.mp3 by GabrielaUPF -- https://freesound.org/s/220302/ -- License: Attribution 3.0
+숨소리 - Ghost Breathing.wav by FunWithSound -- https://freesound.org/s/361486/ -- License: Creative Commons 0

@@ -9,6 +9,7 @@ public class FlashLight : MonoBehaviour, IInteractable
     public void TryInteract()
     {
         PlayerInventoryManager.Instance.GetItem(itemSO);
+        AudioManager.Instance.PlaySystemAudio(5, 0.1f);
         flashlight.SetActive(true);
         batteryUI.SetActive(true);
         Destroy(gameObject);
