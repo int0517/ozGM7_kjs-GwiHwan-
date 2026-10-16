@@ -19,10 +19,20 @@ public class PlayerController : MonoBehaviour
     private float floor1YPos = 1f;
     private float floor2YPos = 7f;
 
+    [Header("Footstep Audio")]
+    [SerializeField] private float walkFootstepInterval = 0.5f;
+    [SerializeField] private float runFootstepInterval = 0.3f;
+
+    private float footstepTimer;
+    private int footstepIndex;
+    private PlayerStaminaManager staminaManager;
+
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        staminaManager = GetComponent<PlayerStaminaManager>();
+
         cam = Camera.main.transform;
         currentFloor = CurrentFloor.Floor1;
     }
@@ -39,6 +49,12 @@ public class PlayerController : MonoBehaviour
         {
             Move();
             Look();
+            PlayFootstep();
+        }
+        else
+        {
+            IsMoving = false;
+            footstepTimer = 0f;
         }
     }
 
@@ -99,6 +115,31 @@ public class PlayerController : MonoBehaviour
         else if (currentFloor == CurrentFloor.Floor2)
         {
             currentFloor = CurrentFloor.Floor1;
+        }
+    }
+
+    private void PlayFootstep()
+    {
+        if (!IsMoving)
+        {
+            footstepTimer = 0f;
+            return;
+        }
+
+        footstepTimer -= Time.deltaTime;
+
+        if (footstepTimer <= 0f)
+        {
+            AudioManager.Instance.PlayPlayerAudio(footstepIndex);
+
+            // 0번과 1번 사운드 번갈아 재생
+            footstepIndex = (footstepIndex + 1) % 2;
+
+            // 걷기와 달리기에 따라 발소리 간격 변경
+            footstepTimer = staminaManager != null &&
+                            staminaManager.IsRunning
+                ? runFootstepInterval
+                : walkFootstepInterval;
         }
     }
 }

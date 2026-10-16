@@ -24,6 +24,8 @@ public class PlayerStaminaManager : MonoBehaviour
     private bool isRunning;
     private bool isExhausted;
 
+    public bool IsRunning => isRunning;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
