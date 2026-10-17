@@ -37,7 +37,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private Dictionary<int, ItemSO> itemDatabase = new Dictionary<int, ItemSO>();
 
-    private bool isOpen;
+    public bool IsOpen { get; private set; }
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class InventoryUIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        inventoryPanel.SetActive(false);
+        if (inventoryPanel != null) inventoryPanel.SetActive(false);
 
         foreach (ItemSO item in allItems)
         {
@@ -64,7 +64,9 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && SceneManager.GetActiveScene().name == "GameScene")
+        if (Input.GetKeyDown(KeyCode.Tab)
+            && SceneManager.GetActiveScene().name == "GameScene"
+            && !GameManager.Instance.IsESC)
         {
             ToggleInventory();
         }
@@ -72,15 +74,15 @@ public class InventoryUIManager : MonoBehaviour
 
     private void ToggleInventory()
     {
-        isOpen = !isOpen;
-        inventoryPanel.SetActive(isOpen);
+        IsOpen = !IsOpen;
+        inventoryPanel.SetActive(IsOpen);
         GameManager.Instance.SetMoveAble(!GameManager.Instance.CanMove);
 
-        Cursor.visible = isOpen;
-        Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
-        Time.timeScale = isOpen ? 0f : 1f;
+        Cursor.visible = IsOpen;
+        Cursor.lockState = IsOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Time.timeScale = IsOpen ? 0f : 1f;
 
-        if (isOpen)
+        if (IsOpen)
         {
             itemDescriptionText.text = "";
             RefreshInventory();
@@ -120,5 +122,15 @@ public class InventoryUIManager : MonoBehaviour
     public void DisplayItemDescription(ItemSO item)
     {
         itemDescriptionText.text = item.Description;
+    }
+
+    public void Bind(GameObject invenPanel, RectTransform content, TextMeshProUGUI itemDescriptionT)
+    {
+        inventoryPanel = invenPanel;
+        this.content = content;
+        itemDescriptionText = itemDescriptionT;
+
+        if (inventoryPanel != null) inventoryPanel.SetActive(false);
+        IsOpen = false;
     }
 }

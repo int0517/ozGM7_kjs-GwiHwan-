@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleManager
   titleSprite2: {fileID: 1505230820}
-  denySprite: {fileID: 0}
+  denySprite: {fileID: 735660489}
 --- !u!4 &293497043
 Transform:
   m_ObjectHideFlags: 0

@@ -74,4 +74,9 @@ public class MessageManager : MonoBehaviour
 
         messageCoroutine = null;
     }
+
+    public void Bind(TextMeshProUGUI messageT)
+    {
+        this.messageT = messageT;
+    }
 }

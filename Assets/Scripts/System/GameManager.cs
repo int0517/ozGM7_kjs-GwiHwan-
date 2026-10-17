@@ -32,11 +32,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Application.targetFrameRate = 144;
-        CanMove = true;
-        IsESC = false;
-        IsEnd = false;
-
         if (instance == null)
         {
             instance = this;
@@ -46,23 +41,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Application.targetFrameRate = 144;
+        CanMove = true;
+        IsESC = false;
+        IsEnd = false;
     }
 
     private void Update()
     {
         if (SceneManager.GetActiveScene().name == "TitleScene") return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)
+            && SceneManager.GetActiveScene().name == "GameScene"
+            && !InventoryUIManager.Instance.IsOpen)
         {
             IsESC = !IsESC;
             Time.timeScale = IsESC ? 0f : 1f;
@@ -90,20 +82,24 @@ public class GameManager : MonoBehaviour
         CanMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        ESCMenuUI.SetActive(IsESC);
+        ESCMenuUI.SetActive(false);
     }
 
     public void TitleButton()
     {
+        IsESC = false;
+        Time.timeScale = 1f;
+        CanMove = true;
         SceneManager.LoadScene("TitleScene");
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void Bind(GameObject ESCMenuUI)
     {
-        if (scene.name == "GameScene")
+        this.ESCMenuUI = ESCMenuUI;
+
+        if (this.ESCMenuUI != null)
         {
-            if (ESCMenuUI == null) ESCMenuUI = GameObject.Find("ESCPanel");
-            if (ESCMenuUI != null) ESCMenuUI.SetActive(false);
+            this.ESCMenuUI.SetActive(false);
         }
     }
 }

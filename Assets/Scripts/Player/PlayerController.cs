@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+public enum CurrentFloor
+{
+    Floor1,
+    Floor2
+}
+
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {

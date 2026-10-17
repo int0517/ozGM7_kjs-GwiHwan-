@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
@@ -14,34 +13,57 @@ public class AudioVolumeController : MonoBehaviour
 
     private void Start()
     {
-        // 저장된 볼륨 불러오기 (기본값 1)
-        float savedVolume = PlayerPrefs.GetFloat(VolumeKey, 1f);
+        // 인스펙터에서 이미 연결된 경우에도 초기화
+        if (volumeSlider != null)
+        {
+            InitializeSlider();
+        }
+    }
 
-        // 슬라이더 범위 설정
+    public void Bind(Slider slider)
+    {
+        if (volumeSlider != null)
+        {
+            volumeSlider.onValueChanged.RemoveListener(SetVolume);
+        }
+
+        volumeSlider = slider;
+
+        if (volumeSlider != null)
+        {
+            InitializeSlider();
+        }
+        else
+        {
+            Debug.LogWarning("AudioVolumeController: 슬라이더 참조가 없습니다.");
+        }
+    }
+
+    private void InitializeSlider()
+    {
         volumeSlider.minValue = 0f;
         volumeSlider.maxValue = 1f;
 
-        // 저장된 값으로 슬라이더 초기화
-        volumeSlider.SetValueWithoutNotify(savedVolume);
+        float savedVolume = PlayerPrefs.GetFloat(VolumeKey, 1f);
 
-        // 저장된 볼륨 적용
+        volumeSlider.SetValueWithoutNotify(savedVolume);
         SetVolume(savedVolume);
 
-        // 슬라이더 변경 이벤트 등록
+        volumeSlider.onValueChanged.RemoveListener(SetVolume);
         volumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
     public void SetVolume(float volume)
     {
-        // 선형 볼륨 값을 데시벨로 변환
         float decibels = volume <= 0.0001f
             ? -80f
             : Mathf.Log10(volume) * 20f;
 
-        // AudioMixer 볼륨 변경
-        audioMixer.SetFloat(VolumeParameter, decibels);
+        if (audioMixer != null)
+        {
+            audioMixer.SetFloat(VolumeParameter, decibels);
+        }
 
-        // 볼륨 설정 저장
         PlayerPrefs.SetFloat(VolumeKey, volume);
         PlayerPrefs.Save();
     }

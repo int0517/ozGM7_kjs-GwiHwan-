@@ -1,4 +1,4 @@
-3D 에셋
+[3D 에셋]
 
 귀신 - "The Unvermeidlich (Ghost) [Darkness Of Eclipse]" (https://skfb.ly/6VFXn) by Memorie is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
@@ -8,15 +8,15 @@
 
 열쇠 - "Door Key" (https://skfb.ly/oLMK7) by GUIBEL is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
-폐병원 - https://assetstore.unity.com/packages/3d/environments/pbr-hospital-horror-pack-free-80117
+폐병원 구조물 - https://assetstore.unity.com/packages/3d/environments/pbr-hospital-horror-pack-free-80117
 
-화분1 - "Snake Plant in Pot – Game-Ready 3D Model" (https://skfb.ly/pwQZ6) by CHEN is licensed under CC Attribution-NonCommercial-NoDerivs (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+화분 - "Snake Plant in Pot – Game-Ready 3D Model" (https://skfb.ly/pwQZ6) by CHEN is licensed under CC Attribution-NonCommercial-NoDerivs (http://creativecommons.org/licenses/by-nc-nd/4.0/).
 
 벤치 - "Hospital bench" (https://skfb.ly/prqPN) by QArts is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 프론트 - "Front Desk (W/Texture by Joshua Bartell)" (https://skfb.ly/oVDGo) by Kimbell Whatley is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
-의자1 - "M Chair" (https://skfb.ly/HNZQ) by firebird854 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+의자 - "M Chair" (https://skfb.ly/HNZQ) by firebird854 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 모니터 - "Office Monitor / Workstation Monitor" (https://skfb.ly/6VD8p) by DatSketch is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
@@ -31,15 +31,21 @@
 조명 - "Portable Construction Light - WCG" (https://skfb.ly/oq7tX) by Vanillatography is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 
-오디오
+[오디오]
 
 발소리 - https://pixabay.com/ko/users/yarzur_ofc-49620193/
 
 문
-열림 - DoorOpened.ogg by lennyboy -- https://freesound.org/s/275184/ -- License: Creative Commons 0
-닫힘 - doorclose.wav by blindgoofball -- https://freesound.org/s/707440/ -- License: Attribution 4.0 
-잠김 - Door Locked by BenjaminNelan -- https://freesound.org/s/321087/ -- License: Creative Commons 0
-잠금 해제 - door unlock.wav by THE_bizniss -- https://freesound.org/s/53273/ -- License: Attribution 3.0
+    열림 - DoorOpened.ogg by lennyboy -- https://freesound.org/s/275184/ -- License: Creative Commons 0
+    닫힘 - doorclose.wav by blindgoofball -- https://freesound.org/s/707440/ -- License: Attribution 4.0 
+    잠김 - Door Locked by BenjaminNelan -- https://freesound.org/s/321087/ -- License: Creative Commons 0
+    잠금 해제 - door unlock.wav by THE_bizniss -- https://freesound.org/s/53273/ -- License: Attribution 3.0
+
+귀신
+    비명 - screaming_woman_horror.mp3 by GabrielaUPF -- https://freesound.org/s/220302/ -- License: Attribution 3.0
+    숨소리 - Ghost Breathing.wav by FunWithSound -- https://freesound.org/s/361486/ -- License: Creative Commons 0
+    추격 - Screaming Sound.mp3 by Cloud-10 -- https://freesound.org/s/536249/ -- License: Creative Commons 0
+    열쇠 드랍 - key drop by MasterSuite -- https://freesound.org/s/667394/ -- License: Creative Commons 0
 
 화이트노이즈 - Sytrus White Noise by curtiswcole -- https://freesound.org/s/717304/ -- License: Creative Commons 0
 
@@ -51,12 +57,10 @@
 
 손전등 - Switch Light 05.wav by tbrook -- https://freesound.org/s/348225/ -- License: Creative Commons 0
 
-귀신
-비명 - screaming_woman_horror.mp3 by GabrielaUPF -- https://freesound.org/s/220302/ -- License: Attribution 3.0
-숨소리 - Ghost Breathing.wav by FunWithSound -- https://freesound.org/s/361486/ -- License: Creative Commons 0
-추격 - Screaming Sound.mp3 by Cloud-10 -- https://freesound.org/s/536249/ -- License: Creative Commons 0
-열쇠 드랍 - key drop by MasterSuite -- https://freesound.org/s/667394/ -- License: Creative Commons 0
+탈진 - 27-jadeos.wav by Tomycatts -- https://freesound.org/s/429315/ -- License: Creative Commons 0
 
-폰트
+
+[폰트]
+
 네이버 나눔바른고딕
 에스코어 드림

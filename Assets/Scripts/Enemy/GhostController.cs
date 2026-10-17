@@ -57,6 +57,10 @@ public class GhostController : MonoBehaviour
     public float ChaseSpeed => chaseSpeed;
     public float SearchSpeed => searchSpeed;
     public bool IsActive => isActive;
+    public GhostAudioController GhostAudio => ghostAudio;
+    public GameObject RewardKey => rewardKey;
+    public StairsRoomDoorManager Door => door;
+
     public int CurrentWaypointIndex
     {
         get => currentWaypointIndex;
@@ -189,13 +193,5 @@ public class GhostController : MonoBehaviour
         agent.isStopped = false;
 
         ChangeState(GhostStateEnum.Patrol);
-    }
-
-    private void OnDestroy()
-    {
-        ghostAudio.StopSound();
-        AudioManager.Instance.PlayGhostAudio(1, 0.3f);
-        door.DoorLock(false);
-        Instantiate(rewardKey, transform.position, Quaternion.identity);
     }
 }

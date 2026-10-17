@@ -38,7 +38,10 @@ public class LightEnemyHit : MonoBehaviour
 
                 if (isVisible)
                 {
-                    Debug.Log("적 파괴");
+                    ghostController.GhostAudio.StopSound();
+                    AudioManager.Instance.PlayGhostAudio(1, 0.3f);
+                    ghostController.Door.DoorLock(false);
+                    Instantiate(ghostController.RewardKey, transform.position, Quaternion.identity);
                     Destroy(hit.collider.gameObject);
                 }
             }

@@ -1,12 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public enum CurrentFloor
-{
-    Floor1,
-    Floor2
-}
-
 public class PlayerStaminaManager : MonoBehaviour
 {
     [Header("Speed")]
@@ -29,7 +23,7 @@ public class PlayerStaminaManager : MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
-
+        
         isRunning = false;
         isExhausted = false;
         staminaCurrentAmount = staminaMaxAmount;
@@ -46,7 +40,12 @@ public class PlayerStaminaManager : MonoBehaviour
     private void Sprint()
     {
         if (Input.GetKeyUp(KeyCode.LeftShift)) isExhausted = false;
-        if (staminaCurrentAmount <= 0f) isExhausted = true;
+
+        if (staminaCurrentAmount <= 0f && !isExhausted)
+        {
+            isExhausted = true;
+            AudioManager.Instance.PlayPlayerAudio(2, 0.1f);
+        }
 
         if (isExhausted)
         {
