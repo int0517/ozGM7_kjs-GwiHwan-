@@ -23,16 +23,25 @@ public class GhostAnimationController : MonoBehaviour
             case GhostStateEnum.Patrol:
                 animator.SetBool("isChasing", false);
                 animator.SetBool("isSearching", false);
+                animator.SetBool("isAttacking", false);
                 break;
 
             case GhostStateEnum.Chase:
                 animator.SetBool("isChasing", true);
                 animator.SetBool("isSearching", false);
+                animator.SetBool("isAttacking", false);
                 break;
 
             case GhostStateEnum.Search:
                 animator.SetBool("isChasing", false);
                 animator.SetBool("isSearching", true);
+                animator.SetBool("isAttacking", false);
+                break;
+
+            case GhostStateEnum.Attack:
+                animator.SetBool("isChasing", false);
+                animator.SetBool("isSearching", false);
+                animator.SetBool("isAttacking", true);
                 break;
         }
     }

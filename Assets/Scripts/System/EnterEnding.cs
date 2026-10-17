@@ -28,6 +28,7 @@ public class EnterEnding : MonoBehaviour
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+            MessageManager.Instance.StopMessage();
             GameManager.Instance.SetMoveAble(false);
             GameManager.Instance.SetIsEnd();
         }

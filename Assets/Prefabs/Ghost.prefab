@@ -127,6 +127,68 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1144920882200363402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8720895640877271635}
+  m_Layer: 7
+  m_Name: KeyPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8720895640877271635
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144920882200363402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2890405218111829376}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8407780825920309026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6353317600744544661}
+  m_Layer: 7
+  m_Name: RootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6353317600744544661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8407780825920309026}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.007786703, y: 0.9914143, z: -0.13052213, w: -0.0010251385}
+  m_LocalPosition: {x: 0, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2890405218111829376}
+  m_LocalEulerAnglesHint: {x: 15, y: 180, z: -0.9}
 --- !u!1001 &3429052712367477355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205,6 +267,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9ddd7c13c04acb408457101d203104d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5171862027935403022}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9ddd7c13c04acb408457101d203104d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6353317600744544661}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9ddd7c13c04acb408457101d203104d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8720895640877271635}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9ddd7c13c04acb408457101d203104d, type: 3}
       insertIndex: -1
@@ -313,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostController
   player: {fileID: 0}
+  runningDetectRange: 8
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -328,6 +397,15 @@ MonoBehaviour:
   patrolSpeed: 3
   chaseSpeed: 5
   searchSpeed: 3
+  attackRange: 2
+  rootPos: {fileID: 6353317600744544661}
+  ghostRestartPos: {fileID: 0}
+  playerRestartPos: {fileID: 0}
+  blackScreen: {fileID: 0}
+  rewardKey: {fileID: 0}
+  door: {fileID: 0}
+  keyPos: {fileID: 8720895640877271635}
+  ghostAudioController: {fileID: 0}
 --- !u!114 &2083578171977465570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +433,6 @@ MonoBehaviour:
   idleAudio: {fileID: 8300000, guid: 58b2d043033e72b4dade023bd24dc827, type: 3}
   chaseAudio: {fileID: 8300000, guid: 9bdf668b017fd2c4e8d8681b5fd4a487, type: 3}
   attackAudio: {fileID: 8300000, guid: a6409183645015449a47d9e65a730369, type: 3}
-  keyDropAudio: {fileID: 8300000, guid: e49c108d876aa61499f701cd446807d3, type: 3}
 --- !u!82 &7890602051193980699
 AudioSource:
   m_ObjectHideFlags: 0

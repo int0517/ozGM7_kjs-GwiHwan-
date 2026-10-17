@@ -7,55 +7,69 @@ public class FlashLightManager : MonoBehaviour
     [SerializeField] private Slider batterySlider;
     [SerializeField] private ItemSO batterySO;
 
-    private float batteryMaxAmount = 10;
+    private float batteryMaxAmount = 10f;
     private float batteryCurrentAmount;
     private bool isLightOn;
+    private bool hasPlayedEmptySound;
 
     private void Awake()
     {
         isLightOn = false;
         batteryCurrentAmount = batteryMaxAmount;
+        hasPlayedEmptySound = false;
     }
 
-    void Update()
+    private void Update()
     {
         handlight.SetActive(isLightOn);
 
         ReloadBattery();
-        DisplayBatteryAmount();
         LightPower();
         ReduceBattery();
+        DisplayBatteryAmount();
     }
 
     private void LightPower()
     {
         if (!GameManager.Instance.CanMove) return;
 
-        if (batteryCurrentAmount <= 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            isLightOn = false;
-            AudioManager.Instance.PlaySystemAudio(7, 0.1f);
-            return;
-        }
+            // 배터리가 없으면 전원을 켤 수 없음
+            if (batteryCurrentAmount <= 0f)
+            {
+                isLightOn = false;
+                return;
+            }
 
-        if (Input.GetMouseButtonDown(0) && batteryCurrentAmount > 0)
-        {
-            AudioManager.Instance.PlaySystemAudio(7, 0.1f);
             isLightOn = !isLightOn;
+            AudioManager.Instance.PlaySystemAudio(7, 0.1f);
         }
     }
 
     private void ReduceBattery()
     {
-        if (!isLightOn || batteryCurrentAmount <= 0) return;
+        if (!isLightOn || batteryCurrentAmount <= 0f) return;
 
         batteryCurrentAmount -= Time.deltaTime;
+
+        if (batteryCurrentAmount <= 0f)
+        {
+            batteryCurrentAmount = 0f;
+            isLightOn = false;
+
+            // 배터리가 방전되는 순간 한 번만 재생
+            if (!hasPlayedEmptySound)
+            {
+                hasPlayedEmptySound = true;
+                AudioManager.Instance.PlaySystemAudio(7, 0.1f);
+            }
+        }
     }
 
     private void DisplayBatteryAmount()
     {
-        float batteryRatio = batteryCurrentAmount / batteryMaxAmount;
-        batterySlider.value = batteryRatio;
+        batterySlider.value = batteryCurrentAmount / batteryMaxAmount;
     }
 
     private void ReloadBattery()
@@ -64,12 +78,17 @@ public class FlashLightManager : MonoBehaviour
             PlayerInventoryManager.Instance.CurrentInventory.ContainsKey(batterySO.ID))
         {
             PlayerInventoryManager.Instance.UseItem(batterySO);
+
             batteryCurrentAmount = batteryMaxAmount;
+            hasPlayedEmptySound = false;
         }
     }
 
     public void ChangeLightState(bool value)
     {
+        if (value && batteryCurrentAmount <= 0f)
+            return;
+
         isLightOn = value;
     }
 }

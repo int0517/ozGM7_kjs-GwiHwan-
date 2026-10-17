@@ -4,5 +4,6 @@ public enum GhostStateEnum
 {
     Patrol,
     Chase,
-    Search
+    Search,
+    Attack
 }

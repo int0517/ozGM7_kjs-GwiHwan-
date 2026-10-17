@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     public float MoveSpeed => moveSpeed;
     public bool IsMoving { get; private set; }
+    public bool IsRunning => staminaManager.IsRunning;
 
     [Header("Floor")]
     [SerializeField] private CurrentFloor currentFloor;

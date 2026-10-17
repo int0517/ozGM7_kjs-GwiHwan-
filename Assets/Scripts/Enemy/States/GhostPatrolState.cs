@@ -16,7 +16,14 @@ public class GhostPatrolState : GhostState
 
     public override void Update()
     {
-        // 플레이어 발견
+        // 가까운 거리에서 플레이어가 달리면 추적
+        if (ghost.CanHearRunningPlayer())
+        {
+            ghost.ChangeState(GhostStateEnum.Chase);
+            return;
+        }
+
+        // 기존 시야 감지
         if (ghost.CanSeePlayer())
         {
             ghost.ChangeState(GhostStateEnum.Chase);
@@ -24,7 +31,8 @@ public class GhostPatrolState : GhostState
         }
 
         // 웨이포인트 도착
-        if (!ghost.Agent.pathPending && ghost.Agent.remainingDistance <= ghost.Agent.stoppingDistance)
+        if (!ghost.Agent.pathPending &&
+            ghost.Agent.remainingDistance <= ghost.Agent.stoppingDistance)
         {
             ghost.ChangeState(GhostStateEnum.Search);
         }

@@ -75,6 +75,22 @@ public class MessageManager : MonoBehaviour
         messageCoroutine = null;
     }
 
+    public void StopMessage()
+    {
+        if (messageCoroutine != null)
+        {
+            StopCoroutine(messageCoroutine);
+            messageCoroutine = null;
+        }
+
+        if (messageT != null)
+        {
+            Color color = messageT.color;
+            color.a = 0f;
+            messageT.color = color;
+        }
+    }
+
     public void Bind(TextMeshProUGUI messageT)
     {
         this.messageT = messageT;

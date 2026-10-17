@@ -38,10 +38,10 @@ public class LightEnemyHit : MonoBehaviour
 
                 if (isVisible)
                 {
-                    ghostController.GhostAudio.StopSound();
+                    ghostController.GhostAudio.StopAllAudio();
                     AudioManager.Instance.PlayGhostAudio(1, 0.3f);
                     ghostController.Door.DoorLock(false);
-                    Instantiate(ghostController.RewardKey, transform.position, Quaternion.identity);
+                    Instantiate(ghostController.RewardKey, ghostController.KeyPos.position, Quaternion.identity);
                     Destroy(hit.collider.gameObject);
                 }
             }

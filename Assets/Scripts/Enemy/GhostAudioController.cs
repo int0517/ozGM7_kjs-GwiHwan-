@@ -1,54 +1,112 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class GhostAudioController : MonoBehaviour
 {
-    private AudioSource audioSource;
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource idleAudio;
+    [SerializeField] private AudioSource chaseAudio;
+    [SerializeField] private AudioSource attackAudio;
 
-    [Header("Ghost Audios")]
-    [SerializeField] private AudioClip idleAudio;
-    [SerializeField] private AudioClip chaseAudio;
-    [SerializeField] private AudioClip attackAudio;
+    private enum AudioState
+    {
+        None,
+        Idle,
+        Chase,
+        Attack
+    }
+
+    private AudioState currentAudioState = AudioState.None;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        // 반복 재생 설정
+        if (idleAudio != null)
+            idleAudio.loop = true;
 
-        audioSource.spatialBlend = 1f;
-        audioSource.playOnAwake = false;
-        audioSource.loop = false;
+        if (chaseAudio != null)
+            chaseAudio.loop = true;
+
+        // 공격 사운드는 한 번만 재생
+        if (attackAudio != null)
+            attackAudio.loop = false;
     }
 
-    public void PlayIdleAudio()
+    public void PlayForState(GhostStateEnum state)
     {
-        PlaySound(idleAudio, true);
+        switch (state)
+        {
+            case GhostStateEnum.Patrol:
+            case GhostStateEnum.Search:
+                PlayIdleAudio();
+                break;
+
+            case GhostStateEnum.Chase:
+                PlayChaseAudio();
+                break;
+
+            case GhostStateEnum.Attack:
+                PlayAttackAudio();
+                break;
+        }
     }
 
-    public void PlayChaseAudio()
+    private void PlayIdleAudio()
     {
-        PlaySound(chaseAudio, true);
+        // Patrol과 Search 사이에서는 재시작하지 않음
+        if (currentAudioState == AudioState.Idle)
+            return;
+
+        StopAllAudio();
+
+        currentAudioState = AudioState.Idle;
+
+        if (idleAudio != null)
+            idleAudio.Play();
     }
 
-    public void PlayAttackAudio()
+    private void PlayChaseAudio()
     {
-        PlaySound(attackAudio, false);
+        if (currentAudioState == AudioState.Chase)
+            return;
+
+        StopAllAudio();
+
+        currentAudioState = AudioState.Chase;
+
+        if (chaseAudio != null)
+            chaseAudio.Play();
     }
 
-    private void PlaySound(AudioClip clip, bool loop, float vol = 0.1f)
+    private void PlayAttackAudio()
     {
-        if (clip == null) return;
+        // 같은 Attack 상태에서 중복 재생하지 않음
+        if (currentAudioState == AudioState.Attack)
+            return;
 
-        // 같은 사운드의 중복 재생 방지
-        if (audioSource.clip == clip && audioSource.isPlaying) return;
+        StopAllAudio();
 
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.loop = loop;
-        audioSource.volume = vol;
-        audioSource.Play();
+        currentAudioState = AudioState.Attack;
+
+        if (attackAudio != null)
+            attackAudio.Play();
     }
 
-    public void StopSound()
+    public void StopAllAudio()
     {
-        audioSource.Stop();
+        if (idleAudio != null)
+            idleAudio.Stop();
+
+        if (chaseAudio != null)
+            chaseAudio.Stop();
+
+        if (attackAudio != null)
+            attackAudio.Stop();
+    }
+
+    public void StopAllGhostAudio()
+    {
+        StopAllAudio();
+        currentAudioState = AudioState.None;
     }
 }
