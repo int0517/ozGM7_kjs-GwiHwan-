@@ -8,7 +8,6 @@ public class GhostAudioController : MonoBehaviour
     [SerializeField] private AudioClip idleAudio;
     [SerializeField] private AudioClip chaseAudio;
     [SerializeField] private AudioClip attackAudio;
-    [SerializeField] private AudioClip keyDropAudio;
 
     private void Awake()
     {
@@ -32,11 +31,6 @@ public class GhostAudioController : MonoBehaviour
     public void PlayAttackAudio()
     {
         PlaySound(attackAudio, false);
-    }
-
-    public void PlayKeyDropAudio()
-    {
-        PlaySound(keyDropAudio, false, 0.2f);
     }
 
     private void PlaySound(AudioClip clip, bool loop, float vol = 0.1f)

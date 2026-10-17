@@ -78,11 +78,6 @@ public class GhostController : MonoBehaviour
         agent.ResetPath();
     }
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         if (!isActive) return;
@@ -109,31 +104,43 @@ public class GhostController : MonoBehaviour
 
     public bool CanSeePlayer()
     {
-        if (player == null) return false;
+        if (player == null)
+        {
+            Debug.LogWarning("Ghost: Player가 연결되지 않았습니다.");
+            return false;
+        }
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
 
-        if (distance > detectRange) return false;
+        if (distance > detectRange)
+            return false;
 
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 direction =
+            (player.position - transform.position).normalized;
 
         float angle = Vector3.Angle(transform.forward, direction);
 
-        if (angle > searchAngle) return false;
+        if (angle > searchAngle)
+            return false;
 
         Vector3 origin = transform.position + Vector3.up * 1.5f;
 
-        if (Physics.Raycast(origin, direction, out RaycastHit hit, detectRange))
+        if (Physics.Raycast(
+            origin, direction, out RaycastHit hit, detectRange))
         {
-            if (hit.transform == player)
-            {
-                Debug.DrawRay(origin, direction * detectRange, Color.green);
-
-                return true;
-            }
-
-            Debug.DrawRay(origin, direction * hit.distance, Color.red
+            Debug.DrawRay(
+                origin,
+                direction * hit.distance,
+                hit.transform == player ? Color.green : Color.red
             );
+
+            Debug.Log($"Ghost 감지 Raycast: {hit.transform.name}");
+
+            if (hit.transform == player)
+                return true;
         }
 
         return false;
@@ -187,7 +194,7 @@ public class GhostController : MonoBehaviour
     private void OnDestroy()
     {
         ghostAudio.StopSound();
-        ghostAudio.PlayKeyDropAudio();
+        AudioManager.Instance.PlayGhostAudio(1, 0.3f);
         door.DoorLock(false);
         Instantiate(rewardKey, transform.position, Quaternion.identity);
     }

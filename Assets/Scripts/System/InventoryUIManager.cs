@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UnityEditor.Progress;
+using UnityEngine.SceneManagement;
 
 public class InventoryUIManager : MonoBehaviour
 {
@@ -64,7 +64,7 @@ public class InventoryUIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && SceneManager.GetActiveScene().name == "GameScene")
         {
             ToggleInventory();
         }
